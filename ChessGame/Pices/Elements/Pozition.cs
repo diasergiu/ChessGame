@@ -22,5 +22,10 @@ namespace ChessGame.Pices.Elements
             return new Pozition(this.pozX, this.pozY);
         }
 
+        public override bool Equals(object obj)
+        {
+            Pozition pozitionObj = obj as Pozition;
+            return pozitionObj.pozX == this.pozX && pozitionObj.pozY == this.pozY;
+        }
     }
 }

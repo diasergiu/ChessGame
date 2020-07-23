@@ -7,19 +7,38 @@ using ChessGame.Pices.Elements;
 
 namespace ChessGame.Pices
 {
-    class Pawn : Pice
+    // dont forget about the enpusant, 
+    // dont forget that now if the pawn didnt move he can jump a pice
+    // don forget about promotion
+    public class Pawn : Pice
     {
-        public override List<Pozition> GetAllMoves(int[,] bord)
+        public bool moved;
+
+        public Pawn(int x, int y, Players player) : base(x, y, player)
         {
-            if (this.player == 1)
+            this.piceType = "p";
+        }
+
+        public override List<Pozition> GetAllMoves(Pice[,] bord)
+        {
+            if (this.player.playerNumber == 1)
                 return GetAllMoves(bord, 1);
             return GetAllMoves(bord, -1);
         }
 
-        public List<Pozition> GetAllMoves(int[,] bord, int up)
+        public List<Pozition> GetAllMoves(Pice[,] bord, int up)
         {
             List<Pozition> pozitionToMove = new List<Pozition>();
-            if (bord[this.pozition.pozX + up, this.pozition.pozY] == 0)
+
+            if (!moved)
+            {
+                if(bord[this.pozition.pozX + (up * 2), this.pozition.pozY] == null)
+                {
+                    pozitionToMove.Add(new Pozition(this.pozition.pozX + (up * 2), this.pozition.pozY));
+                }
+            }
+
+            if (bord[this.pozition.pozX + up, this.pozition.pozY].player == null)
                 pozitionToMove.Add(new Pozition(this.pozition.pozX + up , this.pozition.pozY));
 
             Pozition newPozition = new Pozition(this.pozition.pozX + up, this.pozition.pozY + 1);

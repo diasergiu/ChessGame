@@ -7,22 +7,35 @@ using ChessGame.Pices.Elements;
 
 namespace ChessGame.Pices
 {
-    class Knight : Pice
+    public class Knight : Pice
     {
-        public override List<Pozition> GetAllMoves(int[,] bord)
+        public Knight(int x, int y, Players player) : base(x, y, player)
+        {
+            this.piceType = "K";
+        }
+
+        public override List<Pozition> GetAllMoves(Pice[,] bord)
         {
             List<Pozition> pozitionsToMove = new List<Pozition>();
-            if (this.pozition.pozX + 2 < bord.GetLength(0) && this.pozition.pozY + 1 < bord.GetLength(1)
-                && DiferentPlayer(bord, new Pozition(this.pozition.pozX + 2, this.pozition.pozY + 1)))
-                    pozitionsToMove.Add(new Pozition(this.pozition.pozX + 2, this.pozition.pozY + 1));
 
-            if (this.pozition.pozX + 1 < bord.GetLength(0) && this.pozition.pozY + 2 < bord.GetLength(1)
-                && DiferentPlayer(bord, new Pozition(this.pozition.pozX + 2, this.pozition.pozY + 1)))
-                pozitionsToMove.Add(new Pozition(this.pozition.pozX + 1, this.pozition.pozY + 2));
-
-            // trebuie sa mai fac asta de 6 ori 
+            ValidateAndGetPozition(this.pozition.pozX + 2, this.pozition.pozY + 1, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX + 1, this.pozition.pozY + 2, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX - 2, this.pozition.pozY + 1, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX - 1, this.pozition.pozY + 2, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX - 2, this.pozition.pozY - 1, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX - 1, this.pozition.pozY - 2, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX + 2, this.pozition.pozY - 1, ref bord, ref pozitionsToMove);
+            ValidateAndGetPozition(this.pozition.pozX + 1, this.pozition.pozY - 2, ref bord, ref pozitionsToMove);
+            
             return pozitionsToMove;
         }
+
+        //public void ValidateAndGetPozition(int x, int y,ref Pice[,] bord, ref List<Pozition> pozitionsToMove)
+        //{
+        //    if (x < bord.Length && x >= 0 && y >= 0 && y < bord.Length && DiferentPlayer(bord, new Pozition(x, y))){
+        //        pozitionsToMove.Add(new Pozition(x, y));
+        //    }
+        //}
 
     }
 }

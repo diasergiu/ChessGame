@@ -7,62 +7,63 @@ using System.Threading.Tasks;
 
 namespace ChessGame.Pices
 {
-    class Bishop : Pice
+    public class Bishop : Pice
     {
-        public override List<Pozition> GetAllMoves(int[,] bord)
+        public Bishop()
+        {
+        }
+
+        public Bishop(int x, int y, Players player) : base(x, y, player)
+        {
+            this.piceType = "B";
+        }
+
+        public override List<Pozition> GetAllMoves(Pice[,] bord)
         {
             List<Pozition> pozitionsToMove = new List<Pozition>();
             // looking down right
             for(int i  = this.pozition.pozX + 1, j = this.pozition.pozY + 1; i < bord.GetLength(1) && j < bord.GetLength(0);i++, j++)
             {
-                if (bord[i, j] == this.player)
+                if (!ValidateAndGetPozition(i, j, ref bord, ref pozitionsToMove))
                     break;
-                else
-                {
-                    pozitionsToMove.Add(new Pozition(i, j));
-                    if (DiferentPlayer(bord, new Pozition(i, j)))
-                        break;
-                }
             }
             // looking down left
             for (int i = this.pozition.pozX + 1, j = this.pozition.pozY - 1; i < bord.GetLength(1) && j >= 0; i++, j--)
             {
-                if (bord[i, j] == this.player)
+                if (!ValidateAndGetPozition(i, j, ref bord, ref pozitionsToMove))
                     break;
-                else
-                {
-                    pozitionsToMove.Add(new Pozition(i, j));
-                    if (DiferentPlayer(bord, new Pozition(i, j)))
-                        break;
-                }
             }
             // looking up right
             for (int i = this.pozition.pozX - 1, j = this.pozition.pozY + 1; i >= 0 && j < bord.GetLength(0); i--, j++)
             {
-                if (bord[i, j] == this.player)
+                if(!ValidateAndGetPozition(i, j, ref bord, ref pozitionsToMove))
                     break;
-                else
-                {
-                    pozitionsToMove.Add(new Pozition(i, j));
-                    if (DiferentPlayer(bord, new Pozition(i, j)))
-                        break;
-                }
             }
-
+            // looking up left
             for (int i = this.pozition.pozX - 1, j = this.pozition.pozY - 1; i >= 0 && j >= 0; i--, j--)
             {
-                if (bord[i, j] == this.player)
+                if (!ValidateAndGetPozition(i, j, ref bord, ref pozitionsToMove))
                     break;
-                else
-                {
-                    pozitionsToMove.Add(new Pozition(i, j));
-                    if (DiferentPlayer(bord, new Pozition(i, j)))
-                        break;
-                }
             }
 
 
             return pozitionsToMove;
         }
+
+        //private void ValidateAndGetPozition(int x, int y, ref Pice[,] bord, ref List<Pozition> pozitionsToMove)
+        //{
+        //    if(bord[x,y] == null)
+        //    {
+        //        pozitionsToMove.Add(new Pozition(x, y));
+        //        return;
+        //    }
+        //    if (bord[x, y].player == this.player)
+        //        return;
+        //    else
+        //    {
+        //        pozitionsToMove.Add(new Pozition(x, y));
+        //    }
+        //}
+
     }
 }
